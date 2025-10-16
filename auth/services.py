@@ -18,6 +18,7 @@ def register_user(
     email: str,
     password: str,
     role: str,
+    organization_id: str,
     settings: Settings,
 ) -> Tuple[Dict[str, str], str]:
     """Create a new user and return their public data plus JWT."""
@@ -26,6 +27,7 @@ def register_user(
         user_id=str(uuid.uuid4()),
         email=normalized_email,
         password_hash=hash_password(password),
+        organization_id=organization_id.strip(),
         role=role.strip(),
     )
 
@@ -40,6 +42,7 @@ def register_user(
             "sub": user.user_id,
             "email": user.email,
             "role": user.role,
+            "organization_id": user.organization_id,
         }
     )
 
@@ -68,6 +71,7 @@ def authenticate_user(
             "sub": user.user_id,
             "email": user.email,
             "role": user.role,
+            "organization_id": user.organization_id,
         }
     )
 

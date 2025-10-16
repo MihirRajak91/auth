@@ -41,7 +41,7 @@ The server listens on `http://127.0.0.1:5000` by default.
 
 - `GET /healthz` — simple health check.
 - `POST /register`
-  - Request JSON: `{"email": "...", "password": "...", "role": "..."}`
+  - Request JSON: `{"email": "...", "password": "...", "role": "...", "organization_id": "..."}`
   - Response `201`: registration success with `user_id`, `email`, `role`, and a `token`.
   - Response `409`: email already registered.
 - `POST /login`
@@ -56,7 +56,7 @@ The server listens on `http://127.0.0.1:5000` by default.
 
 Passwords are hashed with bcrypt before being stored. Error responses include a short description and (when applicable) field validation details so the frontend can provide friendly messaging.
 
-The `token` returned from `/login` or `/register` is a signed JWT that other services can verify with the shared `JWT_SECRET` to authenticate the caller. Include it in the `Authorization` header for subsequent requests: `Authorization: Bearer <token>`.
+The `token` returned from `/login` or `/register` is a signed JWT that other services can verify with the shared `JWT_SECRET` to authenticate the caller. Include it in the `Authorization` header for subsequent requests: `Authorization: Bearer <token>`. Tokens include the caller's `organization_id` so downstream services can enforce tenant-level access control.
 
 ## Reusing the Auth package
 

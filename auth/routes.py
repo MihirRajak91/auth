@@ -27,7 +27,7 @@ def health_check():
 @bp.post("/register")
 def register_route():
     payload: Dict[str, Any] = request.get_json(silent=True) or {}
-    errors = validate_payload(["email", "password", "role"], payload)
+    errors = validate_payload(["email", "password", "role", "organization_id"], payload)
     if errors:
         return jsonify({"error": "Invalid payload.", "details": errors}), HTTPStatus.BAD_REQUEST
 
@@ -35,6 +35,7 @@ def register_route():
         email=payload["email"],
         password=payload["password"],
         role=payload["role"],
+        organization_id=payload["organization_id"],
         settings=_settings(),
     )
 
